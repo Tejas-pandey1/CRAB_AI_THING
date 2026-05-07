@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intelligent Crab Guy</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon">🦀</span>
+        <div>
+          <h1>Intelligent Crab Guy</h1>
+       
+        </div>
+      </div>
+      <nav class="topbar-nav">
+        <a href="#" class="topbar-link active">Chat</a>
+        <a href="#" class="topbar-link">History</a>
+        <a href="#" class="topbar-link">Settings</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>Chat History</h2>
+          <span class="badge">0</span>
+        </div>
+        <div class="history-list">
+        
+        </div>
+      </aside>
+
+      <section class="chat-panel">
+        <div class="chat-header">
+          <div>
+            <h2>Ask Intelligent Crab Guy anything</h2>
+          </div>
+        </div>
+
+        <div class="chat-window" id="chat-window">
+        </div>
+      </section>
+    </main>
+
+    <footer class="prompt-panel">
+      <form class="prompt-form">
+        <label for="prompt-input" class="sr-only">Enter your prompt</label>
+        <textarea id="prompt-input" rows="2" placeholder="Type your prompt here..."></textarea>
+        <button type="submit">Send Prompt</button>
+      </form>
+    </footer>
+  </div>
+
+  <script>
+    const form = document.querySelector(".prompt-form");
+    const input = document.querySelector("#prompt-input");
+    const chatWindow = document.getElementById("chat-window");
+
+    function addMessage(text, type) {
+      const msg = document.createElement("div");
+      msg.classList.add("chat-message", type);
+
+      const avatar = type === "user" ? "You" : "🦀";
+      msg.innerHTML = `
+        <div class="message-avatar">${avatar}</div>
+        <div class="message-content"><p>${text}</p></div>
+      `;
+
+      chatWindow.appendChild(msg);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    addMessage("Hello! I'm Intelligent Crab Guy. Ask me anything.", "bot");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      addMessage(userText, "user");
+      input.value = "";
+
+      try {
+        const res = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userText })
+        });
+
+        if (!res.ok) {
+          let errorText = await res.text();
+          try {
+            const errorJson = JSON.parse(errorText);
+            errorText = errorJson.error || errorText;
+          } catch (_err) {}
+            addMessage(`Server error: ${res.status} - ${errorText}`, "bot");
+            return;
+          }
+
+          const data = await res.json();
+          addMessage(data.reply || "No reply returned from the server.", "bot");
+        } catch (error) {
+          addMessage(`Network error: ${error.message}`, "bot");
+        }
+      });
+    </script>
+</body>
+</html>
