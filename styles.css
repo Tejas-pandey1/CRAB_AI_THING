@@ -303,6 +303,10 @@ textarea::placeholder {
 }
 
 @media (max-width: 680px) {
+  .app-shell {
+    padding: 14px;
+  }
+
   .topbar,
   .sidebar,
   .chat-panel,
@@ -318,13 +322,60 @@ textarea::placeholder {
   .topbar-nav {
     justify-content: space-between;
     flex-wrap: wrap;
+    gap: 10px;
   }
 
-  .chat-message.user {
-    grid-template-columns: 1fr;
+  .brand h1 {
+    font-size: 1rem;
+  }
+
+  .layout {
+    gap: 14px;
+  }
+
+  .sidebar {
+    padding: 18px;
+  }
+
+  .history-item {
+    padding: 12px 14px;
+  }
+
+  .chat-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 18px 20px;
+  }
+
+  .chat-window {
+    padding: 0 20px 20px;
+    max-height: none;
   }
 
   .chat-message {
-    grid-template-columns: auto 1fr;
+    gap: 12px;
+  }
+
+  .message-avatar {
+    width: 42px;
+    height: 42px;
+  }
+
+  .prompt-form {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .prompt-form button {
+    width: 100%;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+
+  .sidebar-header,
+  .chat-header {
+    gap: 12px;
   }
 }
