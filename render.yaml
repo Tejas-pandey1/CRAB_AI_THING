@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: crab-ai-thing
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn server:app
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
