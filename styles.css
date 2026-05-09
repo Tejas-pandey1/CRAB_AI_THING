@@ -164,7 +164,121 @@ button {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  overflow-y: auto;
 }
+
+.theme-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.theme-switch span {
+  font-size: 0.98rem;
+  color: #d9e1f2;
+}
+
+.theme-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-track {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  transition: background 0.25s ease;
+}
+
+.switch-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-switch input:checked + .switch-track {
+  background: linear-gradient(135deg, #6b62ff, #00d8ff);
+}
+
+.theme-switch input:checked + .switch-track .switch-thumb {
+  transform: translateX(24px);
+}
+
+body.light .theme-switch span {
+  color: #1b2738;
+}
+
+body.light .switch-track {
+  background: rgba(15, 23, 42, 0.12);
+}
+
+body.light .switch-thumb {
+  background: #f7f9fb;
+}
+
+body.light {
+  background: #f5f7fb;
+  color: #0f172a;
+}
+
+body.light .topbar {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light .topbar-link {
+  color: #475569;
+}
+
+body.light .topbar-link:hover,
+body.light .topbar-link.active {
+  background: rgba(15, 23, 42, 0.06);
+  color: #0f172a;
+}
+
+body.light .sidebar,
+body.light .settings-overlay {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+body.light .history-item {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+body.light .prompt-form {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light textarea {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light .prompt-form button {
+  background: linear-gradient(135deg, #4d7cff, #2963ff);
+}
+
+body.light .message-content {
+  color: #0f172a;
+}
+
 
 .settings-overlay.show {
   transform: translateX(0);
@@ -403,6 +517,11 @@ textarea::placeholder {
 
   .brand h1 {
     font-size: 1rem;
+  }
+
+  .brand-icon {
+    width: 42px;
+    height: 42px;
   }
 
   .layout {
