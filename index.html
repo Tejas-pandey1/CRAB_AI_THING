@@ -10,16 +10,16 @@
   <div class="app-shell">
     <header class="topbar">
       <div class="brand">
-        <span class="brand-icon">🦀</span>
+        <span class="brand-icon"><img src="logo.png" alt="Intelligent Crab Guy"></span>
         <div>
           <h1>Intelligent Crab Guy</h1>
        
         </div>
       </div>
       <nav class="topbar-nav">
-        <a href="#" class="topbar-link active">Chat</a>
+        <a href="#" class="topbar-link active" id="chat-toggle">Chat</a>
         <a href="#" class="topbar-link" id="history-toggle">History</a>
-        <a href="#" class="topbar-link">Settings</a>
+        <a href="#" class="topbar-link" id="settings-toggle">Settings</a>
       </nav>
     </header>
 
@@ -34,10 +34,20 @@
         </div>
       </aside>
 
+      <aside class="settings-overlay">
+        <div class="settings-header">
+          <h2>Settings</h2>
+        </div>
+        <div class="settings-content">
+          <label for="theme-toggle">Light Theme</label>
+          <input type="checkbox" id="theme-toggle">
+        </div>
+      </aside>
+
       <section class="chat-panel">
         <div class="chat-header">
           <div>
-            <h2>Ask Intelligent Crab Guy anything</h2>
+          
           </div>
         </div>
 
@@ -61,10 +71,31 @@
     const chatWindow = document.getElementById("chat-window");
     const sidebar = document.querySelector(".sidebar");
     const historyToggle = document.getElementById("history-toggle");
+    const settingsToggle = document.getElementById("settings-toggle");
+    const chatToggle = document.getElementById("chat-toggle");
+    const settingsOverlay = document.querySelector(".settings-overlay");
+    const themeToggle = document.getElementById("theme-toggle");
 
     historyToggle.addEventListener("click", (e) => {
       e.preventDefault();
       sidebar.classList.toggle("show");
+      settingsOverlay.classList.remove("show");
+    });
+
+    settingsToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      settingsOverlay.classList.toggle("show");
+      sidebar.classList.remove("show");
+    });
+
+    chatToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      sidebar.classList.remove("show");
+      settingsOverlay.classList.remove("show");
+    });
+
+    themeToggle.addEventListener("change", () => {
+      document.body.classList.toggle("light");
     });
 
     function addMessage(text, type) {
