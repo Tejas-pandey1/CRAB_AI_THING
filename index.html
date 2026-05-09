@@ -10,7 +10,7 @@
   <div class="app-shell">
     <header class="topbar">
       <div class="brand">
-        <span class="brand-icon"></span>
+        <span class="brand-icon"><img src="logo.png" alt="Intelligent Crab Guy"></span>
         <div>
           <h1>Intelligent Crab Guy</h1>
        
@@ -41,8 +41,10 @@
         <div class="settings-content">
           <label class="theme-switch">
             <span>Light Theme</span>
-            <input type="checkbox" id="theme-toggle">
-            <span class="switch-track"><span class="switch-thumb"></span></span>
+            <div class="switch">
+              <input type="checkbox" id="theme-toggle">
+              <span class="slider"></span>
+            </div>
           </label>
         </div>
       </aside>
@@ -95,18 +97,6 @@
       e.preventDefault();
       sidebar.classList.remove("show");
       settingsOverlay.classList.remove("show");
-    });
-
-    sidebar.addEventListener("click", (e) => {
-      if (e.target === sidebar) {
-        sidebar.classList.remove("show");
-      }
-    });
-
-    settingsOverlay.addEventListener("click", (e) => {
-      if (e.target === settingsOverlay) {
-        settingsOverlay.classList.remove("show");
-      }
     });
 
     themeToggle.addEventListener("change", () => {
