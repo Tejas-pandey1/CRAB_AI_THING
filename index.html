@@ -18,7 +18,7 @@
       </div>
       <nav class="topbar-nav">
         <a href="#" class="topbar-link active">Chat</a>
-        <a href="#" class="topbar-link">History</a>
+        <a href="#" class="topbar-link" id="history-toggle">History</a>
         <a href="#" class="topbar-link">Settings</a>
       </nav>
     </header>
@@ -59,6 +59,13 @@
     const form = document.querySelector(".prompt-form");
     const input = document.querySelector("#prompt-input");
     const chatWindow = document.getElementById("chat-window");
+    const sidebar = document.querySelector(".sidebar");
+    const historyToggle = document.getElementById("history-toggle");
+
+    historyToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      sidebar.classList.toggle("show");
+    });
 
     function addMessage(text, type) {
       const msg = document.createElement("div");
