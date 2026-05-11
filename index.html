@@ -10,17 +10,19 @@
   <div class="app-shell">
     <header class="topbar">
       <div class="brand">
-        <span class="brand-icon"><img src="logo.png" alt="Intelligent Crab Guy"></span>
+        <span class="brand-icon">🦀</span>
         <div>
           <h1>Intelligent Crab Guy</h1>
        
         </div>
       </div>
       <nav class="topbar-nav">
-        <a href="#" class="topbar-link active" id="chat-toggle">Chat</a>
-        <a href="#" class="topbar-link" id="history-toggle">History</a>
-        <a href="#" class="topbar-link" id="settings-toggle">Settings</a>
+        <a href="#" class="topbar-link active">Chat</a>
+        <a href="#" class="topbar-link">History</a>
+        <a href="#" class="topbar-link">Settings</a>
+        <a href="/logout" class="topbar-link">Logout</a>
       </nav>
+      <button class="menu-toggle" id="menu-toggle">☰</button>
     </header>
 
     <main class="layout">
@@ -34,25 +36,10 @@
         </div>
       </aside>
 
-      <aside class="settings-overlay">
-        <div class="settings-header">
-          <h2>Settings</h2>
-        </div>
-        <div class="settings-content">
-          <label class="theme-switch">
-            <span>Light Theme</span>
-            <div class="switch">
-              <input type="checkbox" id="theme-toggle">
-              <span class="slider"></span>
-            </div>
-          </label>
-        </div>
-      </aside>
-
       <section class="chat-panel">
         <div class="chat-header">
           <div>
-          
+            <h2>Ask Intelligent Crab Guy anything</h2>
           </div>
         </div>
 
@@ -60,6 +47,23 @@
         </div>
       </section>
     </main>
+
+    <div class="menu-overlay" id="menu-overlay">
+      <div class="menu-content">
+        <button class="close-menu" id="close-menu">×</button>
+        <h3>Menu</h3>
+        <a href="#" class="menu-link active">Chat</a>
+        <a href="#" class="menu-link">History</a>
+        <a href="#" class="menu-link">Settings</a>
+        <a href="/logout" class="menu-link">Logout</a>
+        <div class="menu-section">
+          <h4>Chat History</h4>
+          <div class="history-list-mobile">
+            <!-- History items will be populated here -->
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer class="prompt-panel">
       <form class="prompt-form">
@@ -74,34 +78,9 @@
     const form = document.querySelector(".prompt-form");
     const input = document.querySelector("#prompt-input");
     const chatWindow = document.getElementById("chat-window");
-    const sidebar = document.querySelector(".sidebar");
-    const historyToggle = document.getElementById("history-toggle");
-    const settingsToggle = document.getElementById("settings-toggle");
-    const chatToggle = document.getElementById("chat-toggle");
-    const settingsOverlay = document.querySelector(".settings-overlay");
-    const themeToggle = document.getElementById("theme-toggle");
-
-    historyToggle.addEventListener("click", (e) => {
-      e.preventDefault();
-      sidebar.classList.toggle("show");
-      settingsOverlay.classList.remove("show");
-    });
-
-    settingsToggle.addEventListener("click", (e) => {
-      e.preventDefault();
-      settingsOverlay.classList.toggle("show");
-      sidebar.classList.remove("show");
-    });
-
-    chatToggle.addEventListener("click", (e) => {
-      e.preventDefault();
-      sidebar.classList.remove("show");
-      settingsOverlay.classList.remove("show");
-    });
-
-    themeToggle.addEventListener("change", () => {
-      document.body.classList.toggle("light");
-    });
+    const menuToggle = document.getElementById("menu-toggle");
+    const menuOverlay = document.getElementById("menu-overlay");
+    const closeMenu = document.getElementById("close-menu");
 
     function addMessage(text, type) {
       const msg = document.createElement("div");
@@ -118,6 +97,20 @@
     }
 
     addMessage("Hello! I'm Intelligent Crab Guy. Ask me anything.", "bot");
+
+    menuToggle.addEventListener("click", () => {
+      menuOverlay.classList.add("active");
+    });
+
+    closeMenu.addEventListener("click", () => {
+      menuOverlay.classList.remove("active");
+    });
+
+    menuOverlay.addEventListener("click", (e) => {
+      if (e.target === menuOverlay) {
+        menuOverlay.classList.remove("active");
+      }
+    });
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
