@@ -219,11 +219,25 @@ button {
 }
 
 .chat-message {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: flex-start;
   margin-bottom: 16px;
 }
 
 .chat-message.user {
-  text-align: right;
+  grid-template-columns: 1fr auto;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
 .message-content {
@@ -235,37 +249,17 @@ button {
   margin: 0;
 }
 
+.chat-message.user .message-content {
+  color: #4d77ff;
+}
+
 @media (min-width: 981px) {
-  .chat-message {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 16px;
-    align-items: flex-start;
-  }
-
-  .chat-message.user {
-    grid-template-columns: 1fr auto;
-    text-align: left;
-  }
-
   .message-avatar {
     width: 48px;
     height: 48px;
     min-width: 48px;
-    border-radius: 16px;
-    display: grid;
-    place-items: center;
-    background: rgba(255, 255, 255, 0.06);
-    color: #ffffff;
-    font-weight: 700;
   }
-
-  .message-content {
-    padding: 18px 20px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
+}
 
   .layout {
     grid-template-columns: 280px minmax(0, 1fr);
@@ -501,10 +495,6 @@ textarea::placeholder {
 
   .chat-message {
     gap: 12px;
-  }
-
-  .message-avatar {
-    display: none;
   }
 
   .prompt-form {
