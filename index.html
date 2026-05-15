@@ -10,59 +10,151 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
   <div class="app-shell">
 
-    <!-- TOP BAR -->
+    <!-- ── TOP BAR ── -->
     <header class="topbar">
       <div class="brand">
         <span class="brand-icon">🦀</span>
         <h1>Intelligent Crab Guy</h1>
       </div>
       <nav class="topbar-nav">
-        <a href="#" class="topbar-link active">Chat</a>
-        <a href="#" class="topbar-link">Settings</a>
+        <button class="topbar-link active" id="nav-chat-btn">Chat</button>
+        <button class="topbar-link"        id="nav-mem-btn">🧠 Memories</button>
+        <button class="topbar-link"        id="nav-set-btn">⚙️ Settings</button>
+        <span   class="personality-badge balanced" id="personality-badge">Balanced</span>
         <a href="/logout" class="topbar-link logout">Logout</a>
       </nav>
-      <!-- Mobile hamburger -->
       <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">☰</button>
     </header>
 
-    <!-- MAIN LAYOUT: sidebar + chat -->
+    <!-- ── MAIN LAYOUT ── -->
     <main class="layout">
 
-      <!-- SIDEBAR: chat history (desktop only, hidden on mobile) -->
+      <!-- SIDEBAR -->
       <aside class="sidebar">
         <div class="sidebar-header">
-          <h2>History</h2>
+          <h2>Chats</h2>
           <span class="badge" id="history-badge">0</span>
         </div>
         <div class="history-list" id="history-list">
           <p class="history-empty">No conversations yet.</p>
         </div>
         <button class="new-chat-btn" id="new-chat-btn">+ New Chat</button>
+
+        <!-- Sidebar bottom nav -->
+        <nav class="sidebar-nav">
+          <button class="sidebar-nav-link" id="sb-mem-btn">🧠 Memories</button>
+          <button class="sidebar-nav-link" id="sb-set-btn">⚙️ Settings</button>
+        </nav>
       </aside>
 
-      <!-- CHAT PANEL -->
-      <section class="chat-panel">
-        <div class="chat-header">
-          <h2>Ask me anything</h2>
-          <span class="status-pill">🟢 Online</span>
-        </div>
-        <div class="chat-window" id="chat-window"></div>
-      </section>
+      <!-- MAIN AREA: pages switched by JS -->
+      <div class="main-area">
 
+        <!-- PAGE: Chat -->
+        <div class="page active" id="page-chat">
+          <div class="chat-panel">
+            <div class="chat-header">
+              <h2 id="chat-title">Ask me anything</h2>
+              <span class="status-pill">🟢 Online</span>
+            </div>
+            <div class="chat-window" id="chat-window"></div>
+          </div>
+        </div>
+
+        <!-- PAGE: Memories -->
+        <div class="page" id="page-memories">
+          <div class="memories-page">
+            <h2>🧠 Permanent Memories <span id="mem-count-badge" class="badge">0/20</span></h2>
+
+            <div>
+              <div class="memory-bar-label">
+                <span>Memory used</span>
+                <span id="mem-bar-label">0 / 20</span>
+              </div>
+              <div class="memory-bar-wrap">
+                <div class="memory-bar-fill" id="mem-bar-fill" style="width:0%"></div>
+              </div>
+            </div>
+
+            <div class="add-memory-form">
+              <textarea id="mem-input" rows="2" placeholder="Add a memory… e.g. 'My name is Alex' or 'I love horror games'"></textarea>
+              <select id="mem-priority">
+                <option value="8">High priority</option>
+                <option value="5" selected>Medium priority</option>
+                <option value="2">Low priority</option>
+              </select>
+              <button class="add-mem-btn" id="add-mem-btn">+ Add</button>
+            </div>
+
+            <div class="memories-list" id="memories-list">
+              <p class="memories-empty">No memories saved yet. The AI will remember things automatically as you chat!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE: Settings -->
+        <div class="page" id="page-settings">
+          <div class="settings-page">
+            <div class="settings-section">
+              <h3>Account Info</h3>
+              <div class="stats-row">
+                <div class="stat-card">
+                  <div class="stat-value" id="stat-username">—</div>
+                  <div class="stat-label">Username</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-value" id="stat-chats">—</div>
+                  <div class="stat-label">Chats</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-value" id="stat-memories">—</div>
+                  <div class="stat-label">Memories</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-section">
+              <h3>AI Personality</h3>
+              <div class="personality-grid">
+                <div class="personality-card" data-mode="fun">
+                  <div class="pc-icon">🎉</div>
+                  <div class="pc-name">Fun Mode</div>
+                  <div class="pc-desc">Chaotic energy, crab puns, pure comedy gold while staying correct.</div>
+                </div>
+                <div class="personality-card selected" data-mode="balanced">
+                  <div class="pc-icon">⚖️</div>
+                  <div class="pc-name">Balanced</div>
+                  <div class="pc-desc">Friendly, warm, occasionally funny. The perfect everyday mode.</div>
+                </div>
+                <div class="personality-card" data-mode="serious">
+                  <div class="pc-icon">🎯</div>
+                  <div class="pc-name">Serious</div>
+                  <div class="pc-desc">Professional, direct, no jokes. Pure focused accuracy.</div>
+                </div>
+              </div>
+              <button class="settings-save-btn" id="save-personality-btn">Save Personality</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /main-area -->
     </main>
 
-    <!-- INPUT BAR -->
-    <footer class="prompt-panel">
+    <!-- INPUT BAR (chat only) -->
+    <footer class="prompt-panel" id="prompt-panel">
       <div class="prompt-form">
         <label for="prompt-input" class="sr-only">Enter your message</label>
-        <textarea id="prompt-input" rows="2" placeholder="Ask the crab something..."></textarea>
+        <textarea id="prompt-input" rows="2" placeholder="Ask the crab something…"></textarea>
         <button type="button" id="send-btn">Send</button>
       </div>
     </footer>
 
-  </div>
+  </div><!-- /app-shell -->
 
   <!-- MOBILE SLIDE-OUT MENU -->
   <div class="menu-overlay" id="menu-overlay">
@@ -70,13 +162,14 @@
       <button class="close-menu" id="close-menu" aria-label="Close menu">×</button>
       <div class="menu-brand">🦀 Crab Guy</div>
       <nav class="menu-nav">
-        <a href="#" class="menu-link active">Chat</a>
-        <a href="#" class="menu-link">Settings</a>
+        <button class="menu-link active" id="mob-nav-chat">Chat</button>
+        <button class="menu-link"        id="mob-nav-mem">🧠 Memories</button>
+        <button class="menu-link"        id="mob-nav-set">⚙️ Settings</button>
         <a href="/logout" class="menu-link">Logout</a>
       </nav>
       <div class="menu-section">
         <div class="menu-history-header">
-          <h4>History</h4>
+          <h4>Chats</h4>
           <button class="new-chat-btn-mobile" id="new-chat-btn-mobile">+ New</button>
         </div>
         <div class="history-list-mobile" id="history-list-mobile">
@@ -87,184 +180,489 @@
   </div>
 
   <script>
-    // ── State ──────────────────────────────────────────────────────────────
-    let chatHistory = []; // array of { role, text } for current session
-    let conversations = []; // saved conversations [ { id, title, messages[] } ]
-    let activeConvId = null;
+  /* ════════════════════════════════════════════
+     STATE
+  ════════════════════════════════════════════ */
+  let activeChatId   = null;   // current open chat id (int)
+  let chats          = [];     // [{id, title, updated_at}]
+  let currentPage    = 'chat'; // 'chat' | 'memories' | 'settings'
+  let userPersonality = 'balanced';
+  const MAX_MEMORIES = 20;
 
-    // ── DOM refs ───────────────────────────────────────────────────────────
-    const chatWindow       = document.getElementById("chat-window");
-    const promptInput      = document.getElementById("prompt-input");
-    const sendBtn          = document.getElementById("send-btn");
-    const menuToggle       = document.getElementById("menu-toggle");
-    const menuOverlay      = document.getElementById("menu-overlay");
-    const closeMenuBtn     = document.getElementById("close-menu");
-    const historyList      = document.getElementById("history-list");
-    const historyListMobile= document.getElementById("history-list-mobile");
-    const historyBadge     = document.getElementById("history-badge");
-    const newChatBtn       = document.getElementById("new-chat-btn");
-    const newChatBtnMobile = document.getElementById("new-chat-btn-mobile");
+  /* ════════════════════════════════════════════
+     DOM REFS
+  ════════════════════════════════════════════ */
+  const chatWindow        = document.getElementById('chat-window');
+  const promptInput       = document.getElementById('prompt-input');
+  const sendBtn           = document.getElementById('send-btn');
+  const chatTitleEl       = document.getElementById('chat-title');
+  const historyList       = document.getElementById('history-list');
+  const historyListMobile = document.getElementById('history-list-mobile');
+  const historyBadge      = document.getElementById('history-badge');
+  const promptPanel       = document.getElementById('prompt-panel');
+  const personalityBadge  = document.getElementById('personality-badge');
 
-    // ── Helpers ────────────────────────────────────────────────────────────
-    function scrollToBottom() {
-      chatWindow.scrollTop = chatWindow.scrollHeight;
+  /* ════════════════════════════════════════════
+     TOAST
+  ════════════════════════════════════════════ */
+  function toast(msg, type='info', ms=3000) {
+    const el = document.createElement('div');
+    el.className = `toast ${type}`;
+    el.textContent = msg;
+    document.getElementById('toast-container').appendChild(el);
+    setTimeout(() => el.remove(), ms);
+  }
+
+  /* ════════════════════════════════════════════
+     API HELPERS
+  ════════════════════════════════════════════ */
+  async function api(url, method='GET', body=null) {
+    const opts = { method, headers: { 'Content-Type': 'application/json' } };
+    if (body) opts.body = JSON.stringify(body);
+    const r = await fetch(url, opts);
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({ error: r.statusText }));
+      throw new Error(err.error || r.statusText);
     }
+    return r.json();
+  }
 
-    function addMessage(text, type) {
-      const msg = document.createElement("div");
-      msg.classList.add("chat-message", type);
-      const avatar = type === "user" ? "You" : "🦀";
-      msg.innerHTML = `
-        <div class="message-avatar">${avatar}</div>
-        <div class="message-content"><p>${text}</p></div>
-      `;
-      chatWindow.appendChild(msg);
-      scrollToBottom();
-      chatHistory.push({ role: type, text });
-    }
+  /* ════════════════════════════════════════════
+     PAGE NAVIGATION
+  ════════════════════════════════════════════ */
+  function showPage(name) {
+    currentPage = name;
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
 
-    function addTypingIndicator() {
-      const el = document.createElement("div");
-      el.classList.add("chat-message", "bot", "typing-indicator");
-      el.id = "typing-indicator";
-      el.innerHTML = `
-        <div class="message-avatar">🦀</div>
-        <div class="message-content"><span class="dots"><span></span><span></span><span></span></span></div>
-      `;
-      chatWindow.appendChild(el);
-      scrollToBottom();
-    }
+    // Prompt bar only on chat
+    promptPanel.style.display = name === 'chat' ? '' : 'none';
 
-    function removeTypingIndicator() {
-      const el = document.getElementById("typing-indicator");
-      if (el) el.remove();
-    }
+    // Topbar links
+    document.querySelectorAll('.topbar-link').forEach(l => l.classList.remove('active'));
+    const map = { chat: 'nav-chat-btn', memories: 'nav-mem-btn', settings: 'nav-set-btn' };
+    if (map[name]) document.getElementById(map[name])?.classList.add('active');
 
-    // ── History rendering ──────────────────────────────────────────────────
-    function renderHistory() {
-      historyBadge.textContent = conversations.length;
+    // Mobile menu links
+    document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
+    const mmap = { chat: 'mob-nav-chat', memories: 'mob-nav-mem', settings: 'mob-nav-set' };
+    if (mmap[name]) document.getElementById(mmap[name])?.classList.add('active');
 
-      const empty = conversations.length === 0
-        ? '<p class="history-empty">No conversations yet.</p>'
-        : '';
+    // Sidebar nav
+    document.querySelectorAll('.sidebar-nav-link').forEach(l => l.classList.remove('active-page'));
 
-      [historyList, historyListMobile].forEach(list => {
-        list.innerHTML = empty;
+    if (name === 'memories') loadMemories();
+    if (name === 'settings') loadSettings();
+
+    document.getElementById('menu-overlay').classList.remove('active');
+  }
+
+  /* ════════════════════════════════════════════
+     PERSONALITY BADGE
+  ════════════════════════════════════════════ */
+  const PERSONALITY_LABELS = { fun: '🎉 Fun', balanced: '⚖️ Balanced', serious: '🎯 Serious' };
+
+  function updatePersonalityBadge(mode) {
+    userPersonality = mode;
+    personalityBadge.textContent = PERSONALITY_LABELS[mode] || mode;
+    personalityBadge.className = `personality-badge ${mode}`;
+  }
+
+  /* ════════════════════════════════════════════
+     CHAT LIST
+  ════════════════════════════════════════════ */
+  async function loadChats() {
+    chats = await api('/api/chats');
+    historyBadge.textContent = chats.length;
+    renderChatList();
+  }
+
+  function renderChatList() {
+    historyBadge.textContent = chats.length;
+
+    // Desktop sidebar
+    if (chats.length === 0) {
+      historyList.innerHTML = '<p class="history-empty">No conversations yet.</p>';
+    } else {
+      historyList.innerHTML = '';
+      chats.forEach(c => {
+        const row = document.createElement('div');
+        row.className = 'history-item-row' + (c.id === activeChatId ? ' active' : '');
+        row.dataset.id = c.id;
+
+        const btn = document.createElement('button');
+        btn.className = 'history-item';
+        btn.textContent = c.title;
+        btn.addEventListener('click', () => openChat(c.id));
+
+        const del = document.createElement('button');
+        del.className = 'del-chat-btn';
+        del.title = 'Delete chat';
+        del.innerHTML = '🗑';
+        del.addEventListener('click', (e) => { e.stopPropagation(); deleteChat(c.id); });
+
+        row.appendChild(btn);
+        row.appendChild(del);
+        historyList.appendChild(row);
       });
-
-      conversations.forEach(conv => {
-        [historyList, historyListMobile].forEach((list, i) => {
-          const item = document.createElement("button");
-          item.classList.add(i === 0 ? "history-item" : "history-item-mobile");
-          if (conv.id === activeConvId) item.classList.add("active");
-          item.textContent = conv.title;
-          item.addEventListener("click", () => loadConversation(conv.id));
-          list.appendChild(item);
-        });
-      });
     }
 
-    function saveCurrentConversation() {
-      if (chatHistory.length === 0) return;
-      const title = chatHistory.find(m => m.role === "user")?.text.slice(0, 32) || "Conversation";
-      if (activeConvId) {
-        const conv = conversations.find(c => c.id === activeConvId);
-        if (conv) conv.messages = [...chatHistory];
+    // Mobile list (simpler, no delete button for space)
+    if (chats.length === 0) {
+      historyListMobile.innerHTML = '<p class="history-empty">No conversations yet.</p>';
+    } else {
+      historyListMobile.innerHTML = '';
+      chats.forEach(c => {
+        const btn = document.createElement('button');
+        btn.className = 'history-item-mobile' + (c.id === activeChatId ? ' active' : '');
+        btn.textContent = c.title;
+        btn.addEventListener('click', () => { openChat(c.id); document.getElementById('menu-overlay').classList.remove('active'); });
+        historyListMobile.appendChild(btn);
+      });
+    }
+  }
+
+  /* ════════════════════════════════════════════
+     OPEN / CREATE CHAT
+  ════════════════════════════════════════════ */
+  async function openChat(id) {
+    activeChatId = id;
+    const chat = chats.find(c => c.id === id);
+    chatTitleEl.textContent = chat ? chat.title : 'Chat';
+    chatWindow.innerHTML = '';
+    showPage('chat');
+    renderChatList();
+
+    try {
+      const messages = await api(`/api/chats/${id}/messages`);
+      if (messages.length === 0) {
+        appendBotMsg('Hello! I\'m Intelligent Crab Guy 🦀. Ask me anything!', null, false);
       } else {
-        activeConvId = Date.now();
-        conversations.unshift({ id: activeConvId, title: title + "…", messages: [...chatHistory] });
+        messages.forEach(m => appendMsg(m.role === 'user' ? 'user' : 'bot', m.content, m.id));
       }
-      renderHistory();
+    } catch(e) { toast('Could not load messages: ' + e.message, 'error'); }
+  }
+
+  async function createNewChat() {
+    try {
+      const chat = await api('/api/chats', 'POST');
+      chats.unshift(chat);
+      await openChat(chat.id);
+      renderChatList();
+    } catch(e) { toast('Could not create chat: ' + e.message, 'error'); }
+  }
+
+  async function deleteChat(id) {
+    if (!confirm('Delete this entire conversation?')) return;
+    try {
+      await api(`/api/chats/${id}`, 'DELETE');
+      chats = chats.filter(c => c.id !== id);
+      if (activeChatId === id) {
+        activeChatId = null;
+        chatWindow.innerHTML = '';
+        chatTitleEl.textContent = 'Ask me anything';
+        appendBotMsg('Hello! I\'m Intelligent Crab Guy 🦀. Start a new chat!', null, false);
+      }
+      renderChatList();
+      toast('Chat deleted', 'info');
+    } catch(e) { toast('Delete failed: ' + e.message, 'error'); }
+  }
+
+  /* ════════════════════════════════════════════
+     MESSAGES
+  ════════════════════════════════════════════ */
+  function appendMsg(type, text, msgId=null) {
+    const msg = document.createElement('div');
+    msg.className = `chat-message ${type}`;
+    if (msgId) msg.dataset.msgId = msgId;
+
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.textContent = type === 'user' ? 'You' : '🦀';
+
+    const body = document.createElement('div');
+    body.className = 'message-body';
+
+    const content = document.createElement('div');
+    content.className = 'message-content';
+    const p = document.createElement('p');
+    p.textContent = text;
+    content.appendChild(p);
+
+    // Delete button (only when msgId is known = persisted message)
+    if (msgId) {
+      const delBtn = document.createElement('button');
+      delBtn.className = 'del-msg-btn';
+      delBtn.textContent = '✕ delete';
+      delBtn.addEventListener('click', () => deleteMessage(msgId, msg));
+      body.appendChild(content);
+      body.appendChild(delBtn);
+    } else {
+      body.appendChild(content);
     }
 
-    function loadConversation(id) {
-      const conv = conversations.find(c => c.id === id);
-      if (!conv) return;
-      activeConvId = id;
-      chatHistory = [...conv.messages];
-      chatWindow.innerHTML = "";
-      chatHistory.forEach(m => {
-        const msg = document.createElement("div");
-        msg.classList.add("chat-message", m.role);
-        const avatar = m.role === "user" ? "You" : "🦀";
-        msg.innerHTML = `<div class="message-avatar">${avatar}</div><div class="message-content"><p>${m.text}</p></div>`;
-        chatWindow.appendChild(msg);
-      });
-      scrollToBottom();
-      renderHistory();
-      menuOverlay.classList.remove("active");
-    }
+    msg.appendChild(avatar);
+    msg.appendChild(body);
+    chatWindow.appendChild(msg);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+    return msg;
+  }
 
-    function startNewChat() {
-      saveCurrentConversation();
-      activeConvId = null;
-      chatHistory = [];
-      chatWindow.innerHTML = "";
-      addMessage("Hello! I'm Intelligent Crab Guy 🦀. Ask me anything!", "bot");
-      renderHistory();
-      menuOverlay.classList.remove("active");
-    }
+  function appendBotMsg(text, msgId=null, animate=true) {
+    return appendMsg('bot', text, msgId);
+  }
 
-    // ── Send message ───────────────────────────────────────────────────────
-    async function sendMessage() {
-      const userText = promptInput.value.trim();
-      if (!userText) return;
+  async function deleteMessage(msgId, el) {
+    if (!activeChatId) return;
+    try {
+      await api(`/api/chats/${activeChatId}/messages/${msgId}`, 'DELETE');
+      el.remove();
+      toast('Message deleted', 'info');
+    } catch(e) { toast('Could not delete message: ' + e.message, 'error'); }
+  }
 
-      addMessage(userText, "user");
-      promptInput.value = "";
-      sendBtn.disabled = true;
-      addTypingIndicator();
+  function addTypingIndicator() {
+    const el = document.createElement('div');
+    el.className = 'chat-message bot typing-indicator';
+    el.id = 'typing-indicator';
+    el.innerHTML = `
+      <div class="message-avatar">🦀</div>
+      <div class="message-body">
+        <div class="message-content">
+          <p><span class="dots"><span></span><span></span><span></span></span></p>
+        </div>
+      </div>`;
+    chatWindow.appendChild(el);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
 
+  function removeTypingIndicator() {
+    document.getElementById('typing-indicator')?.remove();
+  }
+
+  /* ════════════════════════════════════════════
+     SEND MESSAGE
+  ════════════════════════════════════════════ */
+  async function sendMessage() {
+    const text = promptInput.value.trim();
+    if (!text) return;
+
+    // Ensure there's an active chat
+    if (!activeChatId) {
       try {
-        const res = await fetch("/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: userText })
-        });
-
-        removeTypingIndicator();
-
-        if (!res.ok) {
-          let errorText = await res.text();
-          try { errorText = JSON.parse(errorText).error || errorText; } catch (_) {}
-          addMessage(`Server error ${res.status}: ${errorText}`, "bot");
-          return;
-        }
-
-        const data = await res.json();
-        addMessage(data.reply || "No reply from server.", "bot");
-        saveCurrentConversation();
-
-      } catch (err) {
-        removeTypingIndicator();
-        addMessage(`Network error: ${err.message}`, "bot");
-      } finally {
-        sendBtn.disabled = false;
-      }
+        const chat = await api('/api/chats', 'POST');
+        chats.unshift(chat);
+        activeChatId = chat.id;
+        chatTitleEl.textContent = chat.title;
+        renderChatList();
+      } catch(e) { toast('Could not start chat: ' + e.message, 'error'); return; }
     }
 
-    // ── Event listeners ────────────────────────────────────────────────────
-    sendBtn.addEventListener("click", sendMessage);
+    promptInput.value = '';
+    sendBtn.disabled = true;
+    appendMsg('user', text); // optimistic, no id yet
+    addTypingIndicator();
 
-    promptInput.addEventListener("keydown", e => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
+    try {
+      const data = await api(`/api/chats/${activeChatId}/chat`, 'POST', { message: text });
+      removeTypingIndicator();
+
+      // Re-fetch messages to get proper IDs for both turns
+      const messages = await api(`/api/chats/${activeChatId}/messages`);
+      chatWindow.innerHTML = '';
+      messages.forEach(m => appendMsg(m.role === 'user' ? 'user' : 'bot', m.content, m.id));
+
+      // Update chat title
+      if (data.chat_title) {
+        chatTitleEl.textContent = data.chat_title;
+        const chat = chats.find(c => c.id === activeChatId);
+        if (chat) chat.title = data.chat_title;
+        renderChatList();
       }
+    } catch(e) {
+      removeTypingIndicator();
+      appendBotMsg('Error: ' + e.message);
+    } finally {
+      sendBtn.disabled = false;
+      promptInput.focus();
+    }
+  }
+
+  /* ════════════════════════════════════════════
+     MEMORIES
+  ════════════════════════════════════════════ */
+  async function loadMemories() {
+    try {
+      const memories = await api('/api/memories');
+      renderMemories(memories);
+    } catch(e) { toast('Could not load memories: ' + e.message, 'error'); }
+  }
+
+  function renderMemories(memories) {
+    const count = memories.length;
+    document.getElementById('mem-count-badge').textContent = `${count}/${MAX_MEMORIES}`;
+    document.getElementById('mem-bar-label').textContent = `${count} / ${MAX_MEMORIES}`;
+    document.getElementById('mem-bar-fill').style.width = `${(count / MAX_MEMORIES) * 100}%`;
+
+    const list = document.getElementById('memories-list');
+    if (count === 0) {
+      list.innerHTML = '<p class="memories-empty">No memories saved yet. The AI will remember things automatically as you chat!</p>';
+      return;
+    }
+
+    list.innerHTML = '';
+    memories.forEach(m => {
+      const item = document.createElement('div');
+      item.className = 'memory-item';
+      const pLevel = m.priority >= 7 ? 'high' : m.priority >= 4 ? 'medium' : 'low';
+      item.dataset.priority = pLevel;
+
+      const date = new Date(m.created_at).toLocaleDateString();
+
+      item.innerHTML = `
+        <div class="memory-priority-dot"></div>
+        <div style="flex:1">
+          <div class="memory-text">${escHtml(m.content)}</div>
+          <div class="memory-meta">Priority ${m.priority}/10 · Added ${date}</div>
+        </div>
+        <button class="del-mem-btn" data-id="${m.id}" title="Delete memory">🗑</button>
+      `;
+
+      item.querySelector('.del-mem-btn').addEventListener('click', () => deleteMemory(m.id, item));
+      list.appendChild(item);
     });
+  }
 
-    menuToggle.addEventListener("click", () => menuOverlay.classList.add("active"));
-    closeMenuBtn.addEventListener("click", () => menuOverlay.classList.remove("active"));
-    menuOverlay.addEventListener("click", e => {
-      if (e.target === menuOverlay) menuOverlay.classList.remove("active");
+  async function addMemory() {
+    const content  = document.getElementById('mem-input').value.trim();
+    const priority = parseInt(document.getElementById('mem-priority').value);
+    if (!content) { toast('Please enter a memory', 'error'); return; }
+
+    try {
+      await api('/api/memories', 'POST', { content, priority });
+      document.getElementById('mem-input').value = '';
+      toast('Memory saved! 🧠', 'success');
+      loadMemories();
+    } catch(e) { toast(e.message, 'error'); }
+  }
+
+  async function deleteMemory(id, el) {
+    try {
+      await api(`/api/memories/${id}`, 'DELETE');
+      el.remove();
+      toast('Memory deleted', 'info');
+      loadMemories(); // refresh bar
+    } catch(e) { toast('Could not delete: ' + e.message, 'error'); }
+  }
+
+  /* ════════════════════════════════════════════
+     SETTINGS
+  ════════════════════════════════════════════ */
+  async function loadSettings() {
+    try {
+      const me = await api('/api/settings/me');
+      document.getElementById('stat-username').textContent  = me.username;
+      document.getElementById('stat-memories').textContent  = `${me.memory_count}/${me.memory_limit}`;
+      document.getElementById('stat-chats').textContent     = chats.length;
+
+      // Highlight current personality card
+      document.querySelectorAll('.personality-card').forEach(c => {
+        c.classList.toggle('selected', c.dataset.mode === me.personality);
+      });
+      updatePersonalityBadge(me.personality);
+    } catch(e) { toast('Could not load settings', 'error'); }
+  }
+
+  async function savePersonality() {
+    const selected = document.querySelector('.personality-card.selected');
+    if (!selected) { toast('Select a personality first', 'error'); return; }
+    try {
+      await api('/api/settings/personality', 'POST', { personality: selected.dataset.mode });
+      updatePersonalityBadge(selected.dataset.mode);
+      toast('Personality updated! 🎉', 'success');
+    } catch(e) { toast(e.message, 'error'); }
+  }
+
+  /* ════════════════════════════════════════════
+     UTILITIES
+  ════════════════════════════════════════════ */
+  function escHtml(t) {
+    return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ════════════════════════════════════════════
+     EVENT LISTENERS
+  ════════════════════════════════════════════ */
+  // Send
+  sendBtn.addEventListener('click', sendMessage);
+  promptInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+
+  // Nav — topbar
+  document.getElementById('nav-chat-btn').addEventListener('click', () => showPage('chat'));
+  document.getElementById('nav-mem-btn').addEventListener('click',  () => showPage('memories'));
+  document.getElementById('nav-set-btn').addEventListener('click',  () => showPage('settings'));
+
+  // Nav — sidebar
+  document.getElementById('sb-mem-btn').addEventListener('click', () => showPage('memories'));
+  document.getElementById('sb-set-btn').addEventListener('click', () => showPage('settings'));
+
+  // Nav — mobile
+  document.getElementById('mob-nav-chat').addEventListener('click', () => showPage('chat'));
+  document.getElementById('mob-nav-mem').addEventListener('click',  () => showPage('memories'));
+  document.getElementById('mob-nav-set').addEventListener('click',  () => showPage('settings'));
+
+  // New chat
+  document.getElementById('new-chat-btn').addEventListener('click',        createNewChat);
+  document.getElementById('new-chat-btn-mobile').addEventListener('click', createNewChat);
+
+  // Mobile menu toggle
+  document.getElementById('menu-toggle').addEventListener('click', () =>
+    document.getElementById('menu-overlay').classList.add('active'));
+  document.getElementById('close-menu').addEventListener('click', () =>
+    document.getElementById('menu-overlay').classList.remove('active'));
+  document.getElementById('menu-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('menu-overlay'))
+      document.getElementById('menu-overlay').classList.remove('active');
+  });
+
+  // Personality cards
+  document.querySelectorAll('.personality-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.personality-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
     });
+  });
 
-    newChatBtn.addEventListener("click", startNewChat);
-    newChatBtnMobile.addEventListener("click", startNewChat);
+  document.getElementById('save-personality-btn').addEventListener('click', savePersonality);
 
-    // ── Init ───────────────────────────────────────────────────────────────
-    addMessage("Hello! I'm Intelligent Crab Guy 🦀. Ask me anything!", "bot");
-    renderHistory();
+  // Memory add
+  document.getElementById('add-mem-btn').addEventListener('click', addMemory);
+  document.getElementById('mem-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); addMemory(); }
+  });
+
+  /* ════════════════════════════════════════════
+     INIT
+  ════════════════════════════════════════════ */
+  async function init() {
+    await loadChats();
+
+    // Load user info for personality badge
+    try {
+      const me = await api('/api/settings/me');
+      updatePersonalityBadge(me.personality);
+    } catch(_) {}
+
+    if (chats.length > 0) {
+      await openChat(chats[0].id);
+    } else {
+      appendBotMsg("Hello! I'm Intelligent Crab Guy 🦀. Ask me anything — or hit '+ New Chat' to start!", null, false);
+    }
+  }
+
+  init();
   </script>
 </body>
 </html>
