@@ -436,3 +436,24 @@ if __name__ == "__main__":
         db.create_all()
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
+
+
+@app.route("/chat", methods=["POST"])
+@login_required
+def chat_legacy():
+    """Legacy endpoint used by the single-file frontend. Finds or creates a chat
+    for the current user and forwards the request to the main chat handler.
+    """
+    # get most recent chat or create one
+    chat = (
+        Chat.query
+        .filter_by(user_id=current_user.id)
+        .order_by(Chat.updated_at.desc())
+        .first()
+    )
+    if not chat:
+        chat = Chat(user_id=current_user.id)
+        db.session.add(chat)
+        db.session.commit()
+
+    return chat_message(chat.id)
