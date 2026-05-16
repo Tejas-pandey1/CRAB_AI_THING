@@ -287,3 +287,112 @@
 
   border-color: rgba(224,92,42,0.25);
 }
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 560px) {
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .login-container {
+    height: 100vh;
+    padding: 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .login-container::before {
+    width: 400px;
+    height: 400px;
+    opacity: 0.4;
+  }
+
+  .login-card {
+    max-width: 100% !important;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .login-card.register-mode {
+    max-width: 100% !important;
+  }
+
+  .login-brand {
+    margin-bottom: 20px;
+    gap: 8px;
+  }
+
+  .brand-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.8rem;
+  }
+
+  .login-brand h1 {
+    font-size: 1.3rem;
+  }
+
+  .mode-tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+  }
+
+  .login-brand p {
+    font-size: 0.8rem;
+  }
+
+  .form-group {
+    margin-bottom: 14px;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+  }
+
+  .form-group input {
+    padding: 11px 12px;
+    font-size: 16px;
+    border-radius: 10px;
+  }
+
+  .form-group input::placeholder {
+    font-size: 0.85rem;
+  }
+
+  .login-form button {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  .personality-picker {
+    gap: 8px;
+  }
+
+  .pp-option {
+    padding: 12px 8px;
+  }
+
+  .pp-icon {
+    font-size: 1.6rem;
+  }
+
+  .pp-name {
+    font-size: 0.75rem;
+  }
+
+  .pp-desc {
+    font-size: 0.65rem;
+    margin-top: 2px;
+  }
+
+  .switch-row {
+    font-size: 0.8rem;
+    margin-top: 16px;
+    gap: 4px;
+  }
+}
