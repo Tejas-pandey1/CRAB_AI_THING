@@ -3,45 +3,209 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - Intelligent Crab Guy</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+
+  <title>{{ 'Register' if register else 'Login' }} — Intelligent Crab Guy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Global styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+  <!-- Auth page styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
 </head>
+
 <body>
+
   <div class="login-container">
-    <div class="login-card">
-      <div class="brand">
+
+    <div class="login-card {{ 'register-mode' if register else '' }}">
+
+      <!-- Brand -->
+      <div class="login-brand">
         <span class="brand-icon">🦀</span>
-        <h1>Intelligent Crab Guy</h1>
-        <p>AI Chat Assistant</p>
+
+        <h1>
+          Intelligent Crab Guy
+
+          <span class="mode-tag">
+            {{ 'Sign Up' if register else 'Login' }}
+          </span>
+        </h1>
+
+        <p>
+          {{ 'Create your account and pick a personality'
+             if register
+             else 'Welcome back — sign in to continue' }}
+        </p>
       </div>
+
+      <!-- Flash Messages -->
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           <div class="flash-messages">
             {% for message in messages %}
-              <p class="flash-message">{{ message }}</p>
+              <p class="flash-message">⚠ {{ message }}</p>
             {% endfor %}
           </div>
         {% endif %}
       {% endwith %}
-      <form method="post" class="login-form" action="{{ url_for('register') if register else url_for('login') }}">
+
+      <!-- Form -->
+      <form
+        method="post"
+        class="login-form"
+        action="{{ url_for('register') if register else url_for('login') }}"
+      >
+
+        <!-- Username -->
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="text" id="username" name="username" required />
+
+          <input
+            type="text"
+            id="username"
+            name="username"
+            autocomplete="username"
+            required
+            placeholder="e.g. crabmaster42"
+          />
         </div>
+
+        <!-- Password -->
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" required />
+
+          <input
+            type="password"
+            id="password"
+            name="password"
+            autocomplete="{{ 'new-password' if register else 'current-password' }}"
+            required
+            placeholder="{{ 'Create a strong password' if register else 'Enter your password' }}"
+          />
         </div>
-        <button type="submit" class="login-btn">{{ 'Register' if register else 'Login' }}</button>
-      </form>
-      <p class="register-link">
+
         {% if register %}
-          Already have an account? <a href="{{ url_for('login') }}">Login here</a>
-        {% else %}
-          Don't have an account? <a href="{{ url_for('register') }}">Register here</a>
+
+        <div class="login-divider">
+          Choose your AI personality
+        </div>
+
+        <div>
+
+          <span class="personality-label">
+            How should the crab talk to you?
+          </span>
+
+          <div class="personality-picker">
+
+            <!-- FUN -->
+            <input
+              class="pp-radio"
+              type="radio"
+              name="personality"
+              id="pp-fun"
+              value="fun"
+            >
+
+            <label class="pp-option" for="pp-fun">
+
+              <div class="pp-check"></div>
+
+              <div class="pp-icon">🎉</div>
+
+              <div class="pp-name">Fun</div>
+
+              <div class="pp-desc">
+                Chaotic & hilarious
+              </div>
+
+            </label>
+
+            <!-- BALANCED -->
+            <input
+              class="pp-radio"
+              type="radio"
+              name="personality"
+              id="pp-balanced"
+              value="balanced"
+              checked
+            >
+
+            <label class="pp-option" for="pp-balanced">
+
+              <div class="pp-check"></div>
+
+              <div class="pp-icon">⚖️</div>
+
+              <div class="pp-name">Balanced</div>
+
+              <div class="pp-desc">
+                Friendly & useful
+              </div>
+
+            </label>
+
+            <!-- SERIOUS -->
+            <input
+              class="pp-radio"
+              type="radio"
+              name="personality"
+              id="pp-serious"
+              value="serious"
+            >
+
+            <label class="pp-option" for="pp-serious">
+
+              <div class="pp-check"></div>
+
+              <div class="pp-icon">🎯</div>
+
+              <div class="pp-name">Serious</div>
+
+              <div class="pp-desc">
+                Direct & precise
+              </div>
+
+            </label>
+
+          </div>
+
+        </div>
+
         {% endif %}
-      </p>
+
+        <!-- Submit -->
+        <button type="submit" class="login-btn">
+          {{ '🦀 Create Account' if register else '→ Sign In' }}
+        </button>
+
+      </form>
+
+      <!-- Switch -->
+      <div class="switch-row">
+
+        {% if register %}
+
+          Already have an account?
+          <a href="{{ url_for('login') }}">Sign in here</a>
+
+        {% else %}
+
+          Don't have an account?
+          <a href="{{ url_for('register') }}">Create one free</a>
+
+        {% endif %}
+
+      </div>
+
     </div>
+
   </div>
+
 </body>
 </html>

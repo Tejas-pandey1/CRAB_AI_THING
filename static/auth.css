@@ -1,0 +1,289 @@
+/* =========================
+   LOGIN CARD
+========================= */
+
+.login-card {
+  max-width: 400px;
+  transition: max-width 0.3s;
+}
+
+.login-card.register-mode {
+  max-width: 480px;
+}
+
+/* =========================
+   BACKGROUND ORB
+========================= */
+
+.login-container::before {
+  content: '';
+  position: fixed;
+
+  width: 600px;
+  height: 600px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(224, 92, 42, 0.07) 0%,
+      rgba(47, 128, 255, 0.05) 50%,
+      transparent 70%
+    );
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+
+  animation: pulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.12);
+  }
+}
+
+/* =========================
+   BRAND
+========================= */
+
+.login-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 28px;
+}
+
+.brand-icon {
+  width: 74px;
+  height: 74px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 22px;
+
+  font-size: 2.2rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1565e8,
+      #0d3fa8
+    );
+
+  box-shadow:
+    0 0 0 6px rgba(21,101,232,0.15),
+    0 16px 36px rgba(21,101,232,0.35);
+}
+
+.login-brand h1 {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 800;
+
+  letter-spacing: -0.02em;
+
+  color: var(--text-primary);
+}
+
+.login-brand p {
+  margin: 0;
+
+  font-size: 0.88rem;
+
+  color: var(--text-muted);
+}
+
+/* =========================
+   DIVIDER
+========================= */
+
+.login-divider {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin: 4px 0;
+
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+
+  flex: 1;
+  height: 1px;
+
+  background: var(--border);
+}
+
+/* =========================
+   PERSONALITY PICKER
+========================= */
+
+.personality-label {
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+
+  color: var(--text-dim);
+}
+
+.pp-radio {
+  display: none;
+}
+
+.pp-option {
+  position: relative;
+
+  padding: 14px 10px;
+}
+
+.pp-check {
+  position: absolute;
+
+  top: 8px;
+  right: 8px;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+  border: 2px solid var(--border);
+
+  background: transparent;
+
+  transition:
+    border-color 0.18s,
+    background 0.18s;
+}
+
+.pp-radio:checked + .pp-option {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.pp-radio:checked + .pp-option .pp-name {
+  color: var(--accent-2);
+}
+
+.pp-radio:checked + .pp-option .pp-check {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.pp-radio:checked + .pp-option .pp-check::after {
+  content: '✓';
+
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -55%);
+
+  font-size: 0.65rem;
+  font-weight: 900;
+
+  color: white;
+}
+
+.pp-desc {
+  margin-top: 4px;
+
+  font-size: 0.7rem;
+  line-height: 1.4;
+
+  color: var(--text-dim);
+}
+
+/* =========================
+   SWITCH ROW
+========================= */
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  margin-top: 20px;
+
+  font-size: 0.86rem;
+
+  color: var(--text-muted);
+}
+
+.switch-row a {
+  color: var(--blue-2);
+
+  font-weight: 600;
+
+  transition: color 0.15s;
+}
+
+.switch-row a:hover {
+  color: var(--accent-2);
+
+  text-decoration: underline;
+}
+
+/* =========================
+   MODE TAG
+========================= */
+
+.mode-tag {
+  display: inline-block;
+
+  margin-left: 6px;
+
+  padding: 3px 10px;
+
+  border-radius: 999px;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  font-family: var(--font-display);
+
+  vertical-align: middle;
+
+  background: var(--blue-bg);
+  color: var(--blue-2);
+
+  border: 1px solid rgba(47,128,255,0.25);
+}
+
+.register-mode .mode-tag {
+  background: var(--accent-bg);
+
+  color: var(--accent-2);
+
+  border-color: rgba(224,92,42,0.25);
+}

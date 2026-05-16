@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <!-- Toast container -->
@@ -376,10 +376,22 @@
     msg.className = `chat-message ${type}`;
     if (msgId) msg.dataset.msgId = msgId;
 
+    // ── Header row: avatar icon + sender name ──
+    const header = document.createElement('div');
+    header.className = 'message-header';
+
     const avatar = document.createElement('div');
     avatar.className = 'message-avatar';
     avatar.textContent = type === 'user' ? 'You' : '🦀';
 
+    const sender = document.createElement('span');
+    sender.className = 'message-sender';
+    sender.textContent = type === 'user' ? 'You' : 'Crab Guy';
+
+    header.appendChild(avatar);
+    header.appendChild(sender);
+
+    // ── Body: flat plain text, no bubble ──
     const body = document.createElement('div');
     body.className = 'message-body';
 
@@ -388,20 +400,18 @@
     const p = document.createElement('p');
     p.textContent = text;
     content.appendChild(p);
+    body.appendChild(content);
 
-    // Delete button (only when msgId is known = persisted message)
+    // Delete button (only for persisted messages)
     if (msgId) {
       const delBtn = document.createElement('button');
       delBtn.className = 'del-msg-btn';
       delBtn.textContent = '✕ delete';
       delBtn.addEventListener('click', () => deleteMessage(msgId, msg));
-      body.appendChild(content);
       body.appendChild(delBtn);
-    } else {
-      body.appendChild(content);
     }
 
-    msg.appendChild(avatar);
+    msg.appendChild(header);
     msg.appendChild(body);
     chatWindow.appendChild(msg);
     chatWindow.scrollTop = chatWindow.scrollHeight;
@@ -426,7 +436,10 @@
     el.className = 'chat-message bot typing-indicator';
     el.id = 'typing-indicator';
     el.innerHTML = `
-      <div class="message-avatar">🦀</div>
+      <div class="message-header">
+        <div class="message-avatar">🦀</div>
+        <span class="message-sender">Crab Guy</span>
+      </div>
       <div class="message-body">
         <div class="message-content">
           <p><span class="dots"><span></span><span></span><span></span></span></p>
@@ -658,7 +671,7 @@
     if (chats.length > 0) {
       await openChat(chats[0].id);
     } else {
-      appendBotMsg("Hello! I'm Intelligent Crab Guy 🦀. Ask me anything — or hit '+ New Chat' to start!", null, false);
+      appendBotMsg("Hello! I'm Intelligent Crab Guy 🦀.Ask me anything!", null, false);
     }
   }
 
