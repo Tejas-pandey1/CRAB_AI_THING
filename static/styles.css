@@ -41,7 +41,8 @@
   --radius-md:      14px;
   --radius-sm:      8px;
   --font-display:   'Syne', sans-serif;
-  --font-body:      'DM Mono', monospace;
+  --font-body:      'Inter', sans-serif;
+  --code-font:      'DM Mono', monospace;
   --topbar-h:       72px;
 }
 
@@ -70,6 +71,79 @@ body {
 button, textarea, input, select { font: inherit; }
 button { border: none; cursor: pointer; background: none; color: inherit; }
 a { color: inherit; text-decoration: none; }
+
+.message-content {
+  line-height: 1.7;
+  font-size: 0.98rem;
+  color: var(--text-primary);
+}
+
+.message-content p {
+  margin: 0.7rem 0;
+}
+
+.message-content h1,
+.message-content h2,
+.message-content h3,
+.message-content h4,
+.message-content h5,
+.message-content h6 {
+  margin: 1rem 0 0.4rem;
+  font-family: var(--font-display);
+  color: #fff;
+}
+
+.message-content ul,
+.message-content ol {
+  margin: 0.7rem 0 0.7rem 1.2rem;
+}
+
+.message-content blockquote {
+  margin: 0.8rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid rgba(255,255,255,0.16);
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.03);
+}
+
+.message-content code {
+  font-family: var(--code-font);
+  background: rgba(255,255,255,0.08);
+  padding: 0.18rem 0.35rem;
+  border-radius: 0.45rem;
+  color: #fff;
+  white-space: pre-wrap;
+}
+
+.message-content pre {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: rgba(255,255,255,0.06);
+  overflow-x: auto;
+}
+
+.message-content pre code {
+  display: block;
+  white-space: pre;
+  font-size: 0.95rem;
+}
+
+.message-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.8rem 0;
+}
+
+.message-content th,
+.message-content td {
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 0.6rem 0.8rem;
+}
+
+.message-content th {
+  background: rgba(255,255,255,0.08);
+}
 
 .sr-only {
   position: absolute;
