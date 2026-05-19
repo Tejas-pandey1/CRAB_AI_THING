@@ -816,7 +816,12 @@ textarea#prompt-input:focus { border-color: rgba(47,128,255,0.4); }
   gap: 4px;
 }
 
-.stat-card .stat-value {
+..stat-card .stat-value {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 800;
