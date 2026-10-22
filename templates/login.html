@@ -43,6 +43,16 @@
         </p>
       </div>
 
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="auth-messages" role="alert" aria-live="polite">
+            {% for message in messages %}
+              <p class="auth-message">{{ message }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
       <!-- Form -->
       <form
         method="post"
