@@ -284,8 +284,10 @@ def logout():
 #  Main App
 # ─────────────────────────────────────────────
 @app.route("/")
-@login_required
 def home():
+    # The first page for signed-out visitors must always be account registration.
+    if not current_user.is_authenticated:
+        return redirect(url_for("register"))
     return render_template("index.html", user=current_user)
 
 
